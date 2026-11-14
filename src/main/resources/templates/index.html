@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Search Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4267b2;
+            font-size: 42px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 15px 25px;
+            background: #4267b2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        .result a {
+            color: #315eaa;
+            font-size: 19px;
+            text-decoration: none;
+        }
+
+        .url {
+            color: green;
+            font-size: 13px;
+            margin: 8px 0;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>My Search</h1>
+    <p style="text-align:center">
+        Discover anything on the internet
+    </p>
+
+    <form action="/search" method="get" class="search-box">
+        <input type="text"
+               name="query"
+               placeholder="Search anything..."
+               th:value="${query}"
+               required>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <div th:if="${searched}">
+        <h3>Search Results</h3>
+
+        <div th:if="${#lists.isEmpty(results)}" class="empty">
+            No results found. Please try another keyword.
+        </div>
+
+        <div th:each="result : ${results}" class="result">
+            <a th:href="${result.url}"
+               th:text="${result.title}"
+               target="_blank">
+                Website Title
+            </a>
+
+            <p class="url" th:text="${result.url}"></p>
+
+            <p th:text="${result.content}"></p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
